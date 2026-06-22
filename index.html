@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Hot Spot Cafe & Restaurant | Jhang</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #e74c3c;
+      --primary-dark: #c0392b;
+      --secondary: #f39c12;
+      --bg-dark: #0a0a0f;
+      --bg-card: rgba(255,255,255,0.04);
+      --gold: #ffd700;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      color: #eee;
+      overflow-x: hidden;
+    }
+
+    body::-webkit-scrollbar {
+      width: 6px;
+    }
+    body::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    body::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    /* ===== PRELOADER ===== */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    #preloader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .preloader-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ===== COSMIC BACKGROUND ===== */
+    .cosmic-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(231, 76, 60, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(243, 156, 18, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(255, 215, 0, 0.04) 0%, transparent 50%),
+        var(--bg-dark);
+    }
+
+    .star {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--dur) ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(10,10,15,0.7);
+      backdrop-filter: blur(30px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--secondary); }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: conic-gradient(var(--sauce) 0deg 220deg, var(--crust) 220deg 360deg);
+      border-radius: 50%;
+      position: relative;
+      display: inline-block;
+    }
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      background: var(--cheese);
+    }
+    .logo-icon::before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #2d8a2d;
+      border-radius: 50%;
+      top: 12px;
+      left: 10px;
+      z-index: 2;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: 0.3s;
+      position: relative;
+      letter-spacing: 0.5px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--secondary);
+      transition: 0.3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .btn-order {
+      padding: 0.5rem 1.4rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-order:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(231, 76, 60, 0.4);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 5px;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 5% 4rem;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(243,156,18,0.1);
+      border: 1px solid rgba(243,156,18,0.2);
+      color: var(--secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: shineText 3s ease-in-out infinite;
+    }
+    @keyframes shineText {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.5);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== HERO PIZZA SLICE ===== */
+    .pizza-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .hero-pizza-img {
+      position: absolute;
+      width: clamp(300px, 38vw, 550px);
+      height: auto;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -55%) rotate(-12deg);
+      border-radius: 0;
+      transition: transform 0.1s ease-out, opacity 0.3s ease;
+      filter: drop-shadow(0 30px 80px rgba(231, 76, 60, 0.25)) brightness(1.02);
+      aspect-ratio: auto;
+      clip-path: none;
+      object-fit: contain;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: bounceDown 2s ease-in-out infinite;
+    }
+    .scroll-indicator .arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid rgba(255,255,255,0.3);
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      transform: rotate(45deg);
+      animation: arrowPulse 2s ease-in-out infinite;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+    @keyframes arrowPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* ===== MENU SECTION ===== */
+    .section {
+      padding: 6rem 5%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .section-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      margin-bottom: 0.8rem;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+    .section-header h2 .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section-header p {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.95rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-section {
+      background: linear-gradient(180deg, #0f0f1a, var(--bg-dark));
+      overflow: hidden;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: all 0.8s ease;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+    }
+    .about-visual.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .about-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      aspect-ratio: 4/3;
+      filter: brightness(0.9);
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+    .about-visual:hover img {
+      transform: scale(1.03);
+      filter: brightness(1);
+    }
+    .about-visual::after {
+      content: '🍕 The Hot Spot';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 1rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .about-content {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: all 0.8s ease 0.2s;
+    }
+    .about-content.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .about-content h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .about-content h2 .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .about-content p {
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    .about-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .about-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .about-feature i {
+      color: var(--secondary);
+    }
+
+    /* ===== REVIEWS ===== */
+    .reviews-section {
+      background: linear-gradient(180deg, var(--bg-dark), #0f0f1a);
+    }
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .review-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid rgba(255,255,255,0.04);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .review-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .review-card:hover {
+      border-color: rgba(231, 76, 60, 0.1);
+    }
+    .review-stars {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      letter-spacing: 2px;
+    }
+    .review-text {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+      font-style: italic;
+    }
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .review-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: #fff;
+    }
+    .review-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #ddd;
+    }
+    .review-time {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== REELS ===== */
+    .reels-section {
+      background: linear-gradient(180deg, var(--bg-dark), #0f0f1a);
+      overflow: hidden;
+    }
+    .reels-track-wrapper {
+      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 0.5rem 0;
+    }
+    .reels-track {
+      display: flex;
+      gap: 1.5rem;
+      padding: 0.5rem 5%;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+      scrollbar-width: none;
+    }
+    .reels-track::-webkit-scrollbar {
+      display: none;
+    }
+    .reels-track:active {
+      cursor: grabbing;
+    }
+    .reel-card {
+      flex: 0 0 auto;
+      width: 280px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0.7;
+      transform: scale(0.95);
+    }
+    .reel-card.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .reel-card:hover {
+      border-color: rgba(231, 76, 60, 0.2);
+      transform: scale(1.02) !important;
+    }
+    .reel-video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9/16;
+      overflow: hidden;
+    }
+    .reel-video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .reel-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      cursor: pointer;
+    }
+    .reel-card:hover .reel-overlay {
+      opacity: 1;
+    }
+    .reel-play-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(231, 76, 60, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      box-shadow: 0 5px 30px rgba(231, 76, 60, 0.3);
+    }
+    .reel-card-footer {
+      padding: 0.8rem 1rem;
+    }
+    .reel-card-footer .reel-platform {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+    .reel-card-footer .reel-title {
+      font-size: 0.8rem;
+      color: #ccc;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .reel-card-footer .reel-link {
+      display: inline-block;
+      margin-top: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .reel-card-footer .reel-link:hover {
+      text-decoration: underline;
+    }
+    .reels-scroll-indicator {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+    .reels-scroll-indicator i {
+      display: inline-block;
+      animation: scrollHint 2s ease-in-out infinite;
+    }
+    @keyframes scrollHint {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(8px); }
+    }
+
+    /* ===== CONTACT ===== */
+    .contact-section {
+      background: linear-gradient(180deg, #0f0f1a, var(--bg-dark));
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .contact-card {
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.04);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .contact-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .contact-card:hover {
+      border-color: rgba(231, 76, 60, 0.1);
+    }
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(231, 76, 60, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+    .contact-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: #fff;
+    }
+    .contact-card p {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .contact-card a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 3rem 5%;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      position: relative;
+      z-index: 1;
+    }
+    footer .logo {
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      list-style: none;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: 0.3s;
+    }
+    .footer-links a:hover { color: #fff; }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .social-links a:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+    footer p {
+      color: rgba(255,255,255,0.2);
+      font-size: 0.75rem;
+    }
+
+    /* ===== FLOAT CALL ===== */
+    .float-call {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+    }
+    .float-call a {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.3rem;
+      box-shadow: 0 5px 30px rgba(231, 76, 60, 0.4);
+      transition: 0.3s;
+      text-decoration: none;
+      animation: floatCall 3s ease-in-out infinite;
+    }
+    @keyframes floatCall {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .float-call a:hover {
+      transform: scale(1.1);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(10,10,15,0.95);
+        padding: 2rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        backdrop-filter: blur(20px);
+      }
+      .nav-links.active { display: flex; }
+      .hamburger { display: flex; }
+
+      .hero-pizza-img {
+        width: clamp(250px, 60vw, 400px);
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .about-visual { display: none; }
+
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .hero-pizza-img {
+        width: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div style="font-size:3rem;animation:float 2s ease-in-out infinite;">🍕</div>
+  <div class="preloader-text">Loading...</div>
+</div>
+
+<!-- COSMIC BG -->
+<div class="cosmic-bg" id="cosmicBg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <span class="logo-icon"></span>
+    <span>Hot</span> Spot
+  </div>
+  <ul class="nav-links" id="navLinks">
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="#reels">Reels</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="tel:03060307333" class="btn-order"><i class="fas fa-phone"></i> Call Now</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="pizza-container">
+    <img
+      class="hero-pizza-img" id="heroPizza"
+      src="https://images.deliveryhero.io/image/fd-pk/LH/ql9r-listing.jpg"
+      alt="Delicious pizza"
+      loading="eager"
+    />
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-star"></i> 4.8 ★ — 112+ Google Reviews
+    </div>
+    <h1>Welcome to<br /><span class="highlight">The Hot Spot</span></h1>
+    <p>Jhang's ultimate fast-food destination. Fresh, cheesy, and flavourful delights crafted to make every bite unforgettable.</p>
+    <div class="hero-buttons">
+      <a href="menu.html" class="btn-order"><i class="fas fa-utensils"></i> Explore Menu</a>
+      <a href="tel:03060307333" class="btn-order" style="background:transparent;border:1px solid rgba(255,255,255,0.15);"><i class="fas fa-phone-alt"></i> 0306 0307333</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about-section" id="about">
+  <div class="about-grid">
+    <div class="about-visual" id="aboutVisual">
+      <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80" alt="The Hot Spot Restaurant" loading="lazy" />
+    </div>
+    <div class="about-content" id="aboutContent">
+      <h2>Discover <span class="highlight">The Hot Spot</span></h2>
+      <p>Welcome to Jhang's ultimate fast-food destination! At The Hot Spot Cafe & Restaurant, we're dedicated to creating a delicious experience with every bite. Our premium ingredients, cheesy delights, and flavourful combinations keep our customers coming back for more.</p>
+      <p>Whether you're craving a late-night pizza, a zinger feast, or something unique like our Donut Pizza or Matka Fries — we've got you covered!</p>
+      <div class="about-features">
+        <div class="about-feature"><i class="fas fa-check-circle"></i> Premium Ingredients</div>
+        <div class="about-feature"><i class="fas fa-check-circle"></i> Open till 2 AM</div>
+        <div class="about-feature"><i class="fas fa-check-circle"></i> Free Wi-Fi</div>
+        <div class="about-feature"><i class="fas fa-check-circle"></i> Cash Only</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section reviews-section" id="reviews">
+  <div class="section-header" id="reviewsHeader">
+    <h2>What Our <span class="highlight">Customers</span> Say</h2>
+    <p>Rated 4.8 ★ from 112+ Google reviews.</p>
+  </div>
+  <div class="review-grid">
+    <div class="review-card" data-delay="0">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Best pizza in Jhang! The Layer Blast Pizza is absolutely amazing. Fresh ingredients and great taste. Highly recommended!"</p>
+      <div class="review-author">
+        <div class="review-avatar">AH</div>
+        <div>
+          <div class="review-name">Ahmed Hassan</div>
+          <div class="review-time">2 weeks ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card" data-delay="0.15">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The Matka Fries are a game changer! Never had anything like this before. Perfect spot for late-night cravings."</p>
+      <div class="review-author">
+        <div class="review-avatar">SN</div>
+        <div>
+          <div class="review-name">Sana Noor</div>
+          <div class="review-time">1 week ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card" data-delay="0.3">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Great atmosphere, friendly staff, and the food is incredible. Their Zinger Party Deal is perfect for group hangouts!"</p>
+      <div class="review-author">
+        <div class="review-avatar">BK</div>
+        <div>
+          <div class="review-name">Bilal Khan</div>
+          <div class="review-time">3 days ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REELS -->
+<section class="section reels-section" id="reels">
+  <div class="section-header" id="reelsHeader">
+    <h2>🎬 <span class="highlight">Reels</span> & Reviews</h2>
+    <p>Real moments from The Hot Spot — swipe through our latest videos</p>
+  </div>
+
+  <div class="reels-track-wrapper">
+    <div class="reels-track" id="reelsTrack">
+      <!-- Facebook Reel 1 -->
+      <div class="reel-card" data-delay="0">
+        <div class="reel-video-wrap">
+          <iframe src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/61573816912727/videos/777026968341327&show_text=false&width=280&height=498" loading="lazy" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture;"></iframe>
+        </div>
+        <div class="reel-card-footer">
+          <div class="reel-platform"><i class="fab fa-facebook"></i> Facebook</div>
+          <div class="reel-title">Craving something unique? Visit The Hot Spot!</div>
+          <a href="https://www.facebook.com/61573816912727/videos/777026968341327" target="_blank" class="reel-link">Watch on Facebook →</a>
+        </div>
+      </div>
+
+      <!-- TikTok Reel -->
+      <div class="reel-card" data-delay="0.1">
+        <div class="reel-video-wrap">
+          <iframe src="https://www.tiktok.com/embed/v2/7509330194214161684" loading="lazy" allowfullscreen></iframe>
+        </div>
+        <div class="reel-card-footer">
+          <div class="reel-platform"><i class="fab fa-tiktok"></i> TikTok</div>
+          <div class="reel-title">Hot Spot Jhang — latest food buzz!</div>
+          <a href="https://www.tiktok.com/@ranaatif1869/video/7509330194214161684" target="_blank" class="reel-link">Watch on TikTok →</a>
+        </div>
+      </div>
+
+      <!-- Facebook Page Preview -->
+      <div class="reel-card" data-delay="0.2">
+        <div class="reel-video-wrap" style="background: linear-gradient(135deg, #1877f2, #0d65d9); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.8rem; color:#fff; padding:1rem; text-align:center;">
+          <i class="fab fa-facebook" style="font-size:3rem; opacity:0.6;"></i>
+          <span style="font-weight:700; font-size:1rem;">The Hotspot Jhang</span>
+          <span style="font-size:0.8rem; opacity:0.7;">Follow us on Facebook</span>
+          <a href="https://www.facebook.com/p/The-Hotspot-Jhang-61573816912727/" target="_blank" style="padding:0.5rem 1.2rem; background:#fff; color:#1877f2; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.8rem;">Visit Page</a>
+        </div>
+        <div class="reel-card-footer">
+          <div class="reel-platform"><i class="fab fa-facebook"></i> Facebook Page</div>
+          <div class="reel-title">Follow The Hotspot Jhang for updates!</div>
+          <a href="https://www.facebook.com/p/The-Hotspot-Jhang-61573816912727/" target="_blank" class="reel-link">Visit Page →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reels-scroll-indicator">
+    <i class="fas fa-arrow-right"></i> Scroll to explore more reels <i class="fas fa-arrow-left"></i>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="contact">
+  <div class="section-header" id="contactHeader">
+    <h2>Get in <span class="highlight">Touch</span></h2>
+    <p>Visit us or give us a call — we'd love to hear from you!</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card" data-delay="0">
+      <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <h3>Location</h3>
+      <p>Opposite District Education Complex,<br />Jhang Sadar, Mohalla Burji Wala,<br />Jhang</p>
+    </div>
+    <div class="contact-card" data-delay="0.1">
+      <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+      <h3>Call Us</h3>
+      <p><a href="tel:03060307333">0306 0307333</a></p>
+      <p style="margin-top:0.5rem;font-size:0.8rem;">Open daily till 2 AM</p>
+    </div>
+    <div class="contact-card" data-delay="0.2">
+      <div class="contact-icon"><i class="fas fa-clock"></i></div>
+      <h3>Hours</h3>
+      <p>Popular at 7 PM<br />People typically spend 20 min here<br />Closes 2 AM</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo"><span class="logo-icon"></span> <span>Hot</span> Spot</div>
+  <ul class="footer-links">
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="#reels">Reels</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="social-links">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
+  </div>
+  <p>&copy; 2026 The Hot Spot Cafe & Restaurant Jhang. All rights reserved.</p>
+</footer>
+
+<!-- FLOAT CALL -->
+<div class="float-call">
+  <a href="tel:03060307333" title="Call us!">
+    <i class="fas fa-phone"></i>
+  </a>
+</div>
+
+<script>
+  // ===== NAV =====
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('active');
+  }
+
+  // ===== PRELOADER =====
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hide');
+    }, 1200);
+  });
+
+  // ===== STARS =====
+  (function createStars() {
+    const bg = document.getElementById('cosmicBg');
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.setProperty('--dur', (2 + Math.random() * 4) + 's');
+      star.style.width = star.style.height = (1 + Math.random() * 2) + 'px';
+      star.style.animationDelay = Math.random() * 5 + 's';
+      bg.appendChild(star);
+    }
+  })();
+
+  // ===== SCROLL PIZZA =====
+  const pizza = document.getElementById('heroPizza');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = window.innerHeight;
+    const progress = Math.min(scrollY / maxScroll, 1);
+
+    // Pizza image: rotates, scales up slightly, fades as you scroll
+    const rotate = -12 + progress * 20;
+    const scale = 1 + progress * 0.15;
+    const opacity = 1 - progress * 0.7;
+    const translateY = -scrollY * 0.06;
+
+    pizza.style.transform = `translate(-50%, calc(-50% + ${translateY}px)) rotate(${rotate}deg) scale(${scale})`;
+    pizza.style.opacity = Math.max(opacity, 0.1);
+  });
+
+  // ===== SCROLL REVEAL =====
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, delay * 1000);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Observe reveal elements
+  document.querySelectorAll('.section-header, .about-visual, .about-content, .review-card, .contact-card, .reel-card').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // ===== REELS AUTO SCROLL =====
+  const reelsTrack = document.getElementById('reelsTrack');
+  let reelsAutoScroll = null;
+  let reelsScrolling = false;
+
+  const reelsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Start auto-scrolling
+        if (!reelsScrolling) {
+          reelsScrolling = true;
+          reelsAutoScroll = setInterval(() => {
+            const maxScroll = reelsTrack.scrollWidth - reelsTrack.clientWidth;
+            if (reelsTrack.scrollLeft >= maxScroll - 5) {
+              reelsTrack.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+              reelsTrack.scrollBy({ left: 1, behavior: 'smooth' });
+            }
+          }, 30);
+        }
+      } else {
+        // Stop auto-scrolling when leaving section
+        if (reelsScrolling) {
+          reelsScrolling = false;
+          clearInterval(reelsAutoScroll);
+          reelsAutoScroll = null;
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const reelsSection = document.getElementById('reels');
+  if (reelsSection) reelsObserver.observe(reelsSection);
+
+  // ===== SMOOTH SCROLL =====
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      document.getElementById('navLinks').classList.remove('active');
+    });
+  });
+</script>
+</body>
+</html>
